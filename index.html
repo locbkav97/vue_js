@@ -24,15 +24,21 @@
         [v-cloak] {
             display: none;
         }
+        
+        input {
+            margin: 10px;
+            display: block;
+        }
     </style>
 </head>
 
 <body>
     <div id="app" v-cloak>
-        {{greeting}}
-        <input v-model="greeting">
+        <login-form />
+        <!-- {{greeting}}
+        <input @keyup.enter="greet(greeting)" v-model="greeting"> -->
         <hr>
-        <button v-on:click="isVisible = !isVisible">Toggle Box</button>
+        <button @click="toggleBox">Toggle Box</button>
         <div v-if="isVisible" class="box">
         </div>
         <div v-else-if="isVisible2" class="box two"></div>
@@ -40,15 +46,56 @@
         <!-- khai bao vue -->
         <script src="https://unpkg.com/vue@next"></script>
         <!-- tao file appjs -->
+        <!-- da chua template o phia trenn thi chi can do data vs method -->
         <script>
             let app = Vue.createApp({
-                data: function() {
+                    data: function() {
+                        return {
+                            greeting: 'Hello ',
+                            isVisible: false,
+                            isVisible2: false
+                        }
+                    },
+                    methods: {
+                        toggleBox() {
+                            this.isVisible = !this.isVisible
+                        },
+                        greet(greeting) {
+                            console.log(greeting)
+                        }
+                    }
+                })
+                // tao component thi phai tao template, vs data
+            app.component('login-form', {
+                template: `
+                    <form @submit.prevent = "handleSubmit"> 
+                        <h1>{{title}}</h1>
+                        <custom-input type= "email" v-model = "email" />
+                        <input type = "password" v-model = "password"/>
+                        <button> Log in </button>
+                        </form>
+                  `,
+                data() {
                     return {
-                        greeting: 'Hello ',
-                        isVisible: false,
-                        isVisible2: false
+                        title: 'Login Form',
+                        email: '',
+                        password: ""
+                    }
+
+                },
+                methods: {
+                    handleSubmit() {
+                        console.log(this.email, this.password)
                     }
                 }
+            })
+            app.component('custom-input', {
+                template: `
+                      <label>
+                        {{label}}
+                        <input type = "text">
+                        </label>
+                `
             })
             app.mount('#app')
         </script>
