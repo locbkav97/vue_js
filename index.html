@@ -70,16 +70,30 @@
                 template: `
                     <form @submit.prevent = "handleSubmit"> 
                         <h1>{{title}}</h1>
-                        <custom-input type= "email" v-model = "email" />
-                        <input type = "password" v-model = "password"/>
+                       
+                        <custom-input 
+                         v-for= "(input,i) in inputs"
+                         :key = "i"
+                        v-model = "input.value" :
+                        label="input.label"
+                        type: "input.type"
+                        />
                         <button> Log in </button>
                         </form>
                   `,
+                component: ['custom-input'],
                 data() {
                     return {
                         title: 'Login Form',
-                        email: '',
-                        password: ""
+                        inputs: [{
+                            label: 'Email',
+                            value: '',
+                            type: 'email'
+                        }, {
+                            label: 'Password',
+                            value: '',
+                            type: 'password'
+                        }]
                     }
 
                 },
@@ -93,9 +107,27 @@
                 template: `
                       <label>
                         {{label}}
-                        <input type = "text">
+                        <input :type = "text" v-model = "label">
                         </label>
-                `
+                `,
+                props: ['label', 'type', 'modelValue'],
+                computed: {
+                    inputValue: {
+                        get() {
+                            return this.modelValue
+                        },
+                        set(value) {
+
+                            console.log(value)
+                            this.$emit('update:modelValue', value)
+                        }
+                    }
+                }
+                // data() {
+                //     return {
+                //         inputValue: ''
+                //     }
+                // }
             })
             app.mount('#app')
         </script>
