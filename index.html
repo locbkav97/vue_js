@@ -5,24 +5,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vue js</title>
+    <title>Document</title>
     <style>
         .box {
-            background-color: purple;
-            height: 200px;
             width: 200px;
+            height: 200px;
+            background-color: purple;
         }
         
-        .box.three {
-            background-color: teal;
+        .box.box1 {
+            background-color: red;
         }
         
-        .box.two {
-            background-color: tomato;
-        }
-        
-        [v-cloak] {
-            display: none;
+        .box.box2 {
+            background-color: rosybrown;
         }
         
         input {
@@ -33,72 +29,85 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
-        <login-form />
-        <!-- {{greeting}}
-        <input @keyup.enter="greet(greeting)" v-model="greeting"> -->
+    <div id="app">
+        <!-- {{test}}
+        <input @keyup.enter="greet(test)" v-model="test" type="text">
         <hr>
-        <button @click="toggleBox">Toggle Box</button>
-        <div v-if="isVisible" class="box">
-        </div>
-        <div v-else-if="isVisible2" class="box two"></div>
-        <div v-else class="box three"></div>
-        <!-- khai bao vue -->
-        <script src="https://unpkg.com/vue@next"></script>
-        <!-- tao file appjs -->
-        <!-- da chua template o phia trenn thi chi can do data vs method -->
-        <script>
-            let app = Vue.createApp({
-                    data: function() {
-                        return {
-                            greeting: 'Hello ',
-                            isVisible: false,
-                            isVisible2: false
-                        }
+        <button @click="test2">Show</button>
+        <div v-if="variable" class="box "></div>
+        <div v-else-if="variable1" class="box box1"></div>
+        <div v-else class="box box2"></div> -->
+        <login-form/>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        let app = Vue.createApp({
+                // data: function() {
+                //     return {
+                //         test: 'loc',
+                //         variable: false,
+                //         variable1: false,
+                //     }
+                // },
+                // methods: {
+                //     test2() {
+                //         this.variable = !this.variable
+                //     },
+                //     greet(test) {
+                //         console.log(test)
+                //     }
+                // }
+            })
+            // component
+        app.component('login-form', {
+            template: `
+                  <form @submit.prevent= "submit"> 
+                    {{title}}
+                    <custom-input v-model = "email" />
+                    <custom-input v-model = "password"/>
+                    <button>submit</button>
+                    </form>
+            `,
+            // component: ['custom-input'],
+            data() {
+                return {
+                    title: 'login form',
+                    email: 'adfs',
+                    password: 'asdf',
+                    emailLabel: 'Email',
+                    passwordLabel: 'Password'
+                }
+            },
+            methods: {
+                submit() {
+                    console.log(this.email, this.password)
+                }
+            }
+        })
+        app.component('custom-input', {
+            template: `
+                 <label> 
+                    {{label}}
+                    <input type="text" v-model="inputValue" />
+                    </label>
+                    
+                    `,
+            props: ['label', 'modelValue'],
+            computed: {
+                inputValue: {
+                    get() {
+                        return this.modelValue
                     },
-                    methods: {
-                        toggleBox() {
-                            this.isVisible = !this.isVisible
-                        },
-                        greet(greeting) {
-                            console.log(greeting)
-                        }
-                    }
-                })
-                // tao component thi phai tao template, vs data
-            app.component('login-form', {
-                template: `
-                    <form @submit.prevent = "handleSubmit"> 
-                        <h1>{{title}}</h1>
-                        <custom-input type= "email" v-model = "email" />
-                        <input type = "password" v-model = "password"/>
-                        <button> Log in </button>
-                        </form>
-                  `,
-                data() {
-                    return {
-                        title: 'Login Form',
-                        email: '',
-                        password: ""
-                    }
+                    set(value) {
+                        this.$emit('update:modelValue', value)
 
-                },
-                methods: {
-                    handleSubmit() {
-                        console.log(this.email, this.password)
                     }
                 }
-            })
-            app.component('custom-input', {
-                template: `
-                      <label>
-                        {{label}}
-                        <input type = "text">
-                        </label>
-                `
-            })
-            app.mount('#app')
-        </script>
+            }
+
+        })
+        app.mount('#app')
+    </script>
 </body>
 
 </html>
