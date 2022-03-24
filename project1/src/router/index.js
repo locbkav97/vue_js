@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import ProductView from '../views/ProductView.vue'
 import AddContact from '../components/AddContact.vue'
+import ContactLish from '../components/ContactLish.vue'
 
 const routes = [{
         path: '/',
@@ -23,6 +24,11 @@ const routes = [{
         path: '/add-contact',
         name: 'AddContact',
         component: AddContact
+    },
+    {
+        path: '/contact-list',
+        name: 'ContactList',
+        component: ContactLish
     }
 ]
 
