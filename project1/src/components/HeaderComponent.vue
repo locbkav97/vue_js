@@ -14,12 +14,13 @@
                         </router-link>
                       </li>
                       <li class="nav-item">
-                        <router-link class="nav-link" to="/products">Add Contact</router-link>
+                        <router-link class="nav-link" to="/add-contact">Add Contact</router-link>
                       </li>
                     </ul>
                   </div>
                 </div>
   </nav>
+  <router-view/>
 </template>
 
 <script> 
